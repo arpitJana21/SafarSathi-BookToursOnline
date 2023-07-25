@@ -1,0 +1,24 @@
+{
+  "name": "safar_sathi",
+  "version": "1.0.0",
+  "description": "Online Tour Booking Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "https://github.com/arpitJana21/SafarSathi-BookToursOnline.git",
+  "keywords": [
+    "NodeJS",
+    "ExpressJS",
+    "MongoDB"
+  ],
+  "author": "Arpit Jana",
+  "license": "MIT License",
+  "bugs": {
+    "url": "https://github.com/arpitJana21/SafarSathi-BookToursOnline/issues"
+  },
+  "homepage": "https://github.com/arpitJana21/SafarSathi-BookToursOnline#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
