@@ -23,7 +23,7 @@ const createTour = async function (req, res) {
     try {
         const tour = await Tour.create(req.body);
 
-        return res.status(201).json({
+        return res.status(200).json({
             status: 'success',
             data: { tour },
         });
@@ -38,7 +38,7 @@ const createTour = async function (req, res) {
 const getTour = async function (req, res) {
     try {
         const tour = await Tour.findById(req.params.id);
-        return res.status(201).json({
+        return res.status(200).json({
             status: 'success',
             data: { tour },
         });
@@ -56,7 +56,7 @@ const updateTour = async function (req, res) {
             new: true,
             runValidators: true,
         });
-        return res.status(201).json({
+        return res.status(200).json({
             status: 'success',
             data: { tour },
         });
@@ -71,7 +71,7 @@ const updateTour = async function (req, res) {
 const deleteTour = async function (req, res) {
     try {
         await Tour.findByIdAndDelete(req.params.id);
-        return res.status(201).json({
+        return res.status(200).json({
             status: 'success',
             data: null,
         });
