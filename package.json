@@ -4,8 +4,8 @@
     "description": "Online Tour Booking Application",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "sart:prod": "NODE_ENV=production nodemon server.js"
+        "start": "node index.js",
+        "start:prod": "nodemon index.js"
     },
     "repository": "https://github.com/arpitJana21/SafarSathi-BookToursOnline.git",
     "keywords": [
