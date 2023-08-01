@@ -3,18 +3,44 @@ const { Tour } = require('../Models/tourModel');
 const getAllTours = async function (req, res) {
     try {
         // BUILD QUERY
-        const queryObj = { ...req.query };
+
+        // 1) FILTERING
+        let queryObj = { ...req.query };
         const excludeFields = ['page', 'sort', 'limit', 'fields'];
         excludeFields.forEach(function (ele) {
             delete queryObj[ele];
         });
 
-        const query = Tour.find(queryObj);
+        // 2) ADV. FILTERING
+        let queryStr = JSON.stringify(queryObj);
+        queryStr = queryStr.replace(/(gte|gt|lte|lt)\b/g, function (match) {
+            return `$${match}`;
+        });
+        queryObj = JSON.parse(queryStr);
 
-        // EXECUTE QUERY
+        let query = Tour.find(queryObj);
+
+        // 3) SORTING
+        console.log(req.query.sort);
+        if (req.query.sort) {
+            const sortBy = req.query.sort.split(',').join(' ');
+            query = query.sort(sortBy);
+        } else {
+            query = query.sort('-createdAt');
+        }
+
+        // 4) FIELD LIMITING
+        if (req.query.finds) {
+            const fields = req.query.fields.split(',').join(' ');
+            query = query.select(fields);
+        } else {
+            query = query.select('-__v');
+        }
+
+        // 4) EXECUTE QUERY
         const tours = await query;
 
-        // SEND RESPONSE
+        // 5) SEND RESPONSE
         return res.status(200).json({
             status: 'success',
             results: tours.length,
