@@ -9,6 +9,10 @@ tourRouter
     .post(tourController.createTour);
 
 tourRouter
+    .route('/top-5-cheap')
+    .get(tourController.aliasTopTours, tourController.getAllTours);
+
+tourRouter
     .route('/:id')
     .get(tourController.getTour)
     .patch(tourController.updateTour)
