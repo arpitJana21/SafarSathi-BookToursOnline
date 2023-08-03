@@ -76,6 +76,12 @@ tourSchema.pre('save', function (next) {
 // runs before find(); findOne; findOneAndDelete(); findOneAndRemove(); findOneAndUpdate();
 tourSchema.pre(/^find/, function (next) {
     this.find({ secretTour: { $ne: true } });
+    this.start = Date.now();
+    next();
+});
+
+tourSchema.post(/^find/, function (docs, next) {
+    console.log(`Query Took ${Date.now() - this.start} millisecods !`);
     next();
 });
 
