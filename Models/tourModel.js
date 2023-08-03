@@ -6,6 +6,15 @@ const tourSchema = new mongoose.Schema(
             type: String,
             required: [true, 'A tour must have a name'],
             unique: true,
+            trim: true,
+            maxlength: [
+                40,
+                'A tour name must have less or equel to 40 characters',
+            ],
+            minlength: [
+                10,
+                'A tour name must have more or equel to 10 characters',
+            ],
         },
         slug: String,
         duration: {
@@ -19,6 +28,8 @@ const tourSchema = new mongoose.Schema(
         ratingsAverage: {
             type: Number,
             default: 4.5,
+            min: [1, 'Rating must be greater or equal to 1.0'],
+            max: [5, 'Rating must be lesser or equel to 5.0'],
         },
         ratingsQuantity: {
             type: Number,
@@ -27,12 +38,26 @@ const tourSchema = new mongoose.Schema(
         difficulty: {
             type: String,
             required: [true, 'A tour must have difficulty'],
+            enum: {
+                values: ['easy', 'medium', 'difficult'],
+                message: 'Difficulty can be either easy, medium or difficult',
+            },
         },
         price: {
             type: Number,
             required: [true, 'A tour must have a price'],
         },
-        priceDiscount: Number,
+        priceDiscount: {
+            type: Number,
+            validate: {
+                validator: function (val) {
+                    // This only points to current DOC or NEW DOC
+                    return val < this.price;
+                },
+                message:
+                    'Discount Price ({VALUE}) Should be below regular price',
+            },
+        },
         summary: {
             type: String,
             trim: true,
@@ -77,7 +102,7 @@ tourSchema.pre('save', function (next) {
 });
 
 // QUERY MIDDLEWARE :
-// runs before find(); findOne; findOneAndDelete(); findOneAndRemove(); findOneAndUpdate();
+// runs before find(); findOne(); findOneAndDelete(); findOneAndRemove(); findOneAndUpdate();
 tourSchema.pre(/^find/, function (next) {
     this.find({ secretTour: { $ne: true } });
     this.start = Date.now();
