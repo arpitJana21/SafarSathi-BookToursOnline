@@ -24,6 +24,10 @@ const tourSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
+        difficulty: {
+            type: String,
+            required: [true, 'A tour must have difficulty'],
+        },
         price: {
             type: Number,
             required: [true, 'A tour must have a price'],
@@ -81,7 +85,13 @@ tourSchema.pre(/^find/, function (next) {
 });
 
 tourSchema.post(/^find/, function (docs, next) {
-    console.log(`Query Took ${Date.now() - this.start} millisecods !`);
+    console.dir(`Query Took ${Date.now() - this.start} millisecods !`);
+    next();
+});
+
+// AGGREGATION MIDDLEWARE
+tourSchema.pre('aggregate', function (next) {
+    this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
     next();
 });
 
