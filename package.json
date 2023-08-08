@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
-        "startProd": "nodemon index.js"
+        "dev": "nodemon server.js"
     },
     "repository": "https://github.com/arpitJana21/SafarSathi-BookToursOnline.git",
     "keywords": [
@@ -15,10 +15,6 @@
     ],
     "author": "Arpit Jana",
     "license": "MIT License",
-    "bugs": {
-        "url": "https://github.com/arpitJana21/SafarSathi-BookToursOnline/issues"
-    },
-    "homepage": "https://github.com/arpitJana21/SafarSathi-BookToursOnline#readme",
     "dependencies": {
         "dotenv": "^16.3.1",
         "express": "^4.18.2",
@@ -34,6 +30,7 @@
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-prettier": "^5.0.0",
         "eslint-plugin-react": "^7.33.0",
+        "nodemon": "^3.0.1",
         "prettier": "^3.0.0"
     },
     "engines": {

@@ -9,6 +9,9 @@ const globalErrorHandler = require('./Controllers/errorController');
 dotenv.config({ path: './config.env' });
 const DB = process.env.DATABASE;
 const port = process.env.PORT;
+if (process.env.npm_lifecycle_event === 'dev')
+    process.env.NODE_ENV = 'development';
+
 const app = express();
 
 // JSON Middleware
