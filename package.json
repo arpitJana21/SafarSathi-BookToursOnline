@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
+        "prod": "nodemon index.js",
         "dev": "nodemon server.js"
     },
     "repository": "https://github.com/arpitJana21/SafarSathi-BookToursOnline.git",
