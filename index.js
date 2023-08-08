@@ -1,24 +1,32 @@
 const dotenv = require('dotenv');
 const express = require('express');
 const mongoose = require('mongoose');
-const { tourRouter } = require('./Routes/tours.routes');
+
+const tourRouter = require('./Routes/tours.routes');
+const AppError = require('./utils/appError');
+const globalErrorHandler = require('./Controllers/errorController');
 
 dotenv.config({ path: './config.env' });
 const DB = process.env.DATABASE;
 const port = process.env.PORT;
-
 const app = express();
+
+// JSON Middleware
 app.use(express.json());
 
+// Routes Middlewares
 app.use('/api/v1/tours/', tourRouter);
 
 // Handle Unhandled Routes
 app.all('*', function (req, res, next) {
-    res.status(404).json({
-        status: 'fail',
-        message: `Can't find ${req.originalUrl} on this Server!`,
-    });
+    const err = new AppError(
+        `Can't find ${req.originalUrl} on this Server!`,
+        404,
+    );
+    next(err);
 });
+
+app.use(globalErrorHandler);
 
 console.log('Wait for the DB Connection...');
 mongoose.connect(DB).then(function () {
