@@ -40,7 +40,7 @@ const sendErrorProd = function (err, res) {
         // Programming or other unknown Error : don't leak the error details
     } else {
         // Log Error
-        // console.error(err);
+        console.error(err);
 
         // Send generic message
         res.status(500).json({
@@ -50,7 +50,7 @@ const sendErrorProd = function (err, res) {
     }
 };
 
-module.exports = function (err, req, res, next) {
+const globalErrorHandler = function (err, req, res, next) {
     // console.log(err.stack);
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
@@ -78,3 +78,5 @@ module.exports = function (err, req, res, next) {
         sendErrorProd(error, res);
     }
 };
+
+module.exports = globalErrorHandler;
