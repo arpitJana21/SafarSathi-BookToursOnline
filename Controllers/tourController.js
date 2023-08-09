@@ -29,7 +29,7 @@ const createTour = catchAsync(async function (req, res, next) {
     // newTour.save();
     const tour = await Tour.create(req.body);
 
-    return res.status(200).json({
+    return res.status(201).json({
         status: 'success',
         data: { tour },
     });
@@ -65,7 +65,7 @@ const deleteTour = catchAsync(async function (req, res, next) {
     if (!tour) {
         return next(new AppError('No tour found with that ID', 404));
     }
-    return res.status(200).json({
+    return res.status(204).json({
         status: 'success',
         data: null,
     });

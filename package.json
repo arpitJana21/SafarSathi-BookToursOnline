@@ -2,10 +2,10 @@
     "name": "safar_sathi",
     "version": "1.0.0",
     "description": "Online Tour Booking Application",
-    "main": "index.js",
+    "main": "server.js",
     "scripts": {
-        "start": "node index.js",
-        "prod": "nodemon index.js",
+        "start": "node server.js",
+        "prod": "nodemon server.js",
         "dev": "nodemon server.js"
     },
     "repository": "https://github.com/arpitJana21/SafarSathi-BookToursOnline.git",
