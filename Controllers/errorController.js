@@ -12,6 +12,14 @@ const handleDuplicateDB = function (error) {
     return new AppError(message, 400);
 };
 
+const handleValidationError = function (error) {
+    const errors = Object.values(error.errors).map(function (el) {
+        return el.message;
+    });
+    const message = `Invalid Input Data. ${errors.join('. ')}`;
+    return new AppError(message, 400);
+};
+
 const sendErrorDev = function (err, res) {
     return res.status(err.statusCode).json({
         status: err.status,
@@ -61,6 +69,12 @@ module.exports = function (err, req, res, next) {
         if (err.code === 11000) {
             error = handleDuplicateDB(error);
         }
+
+        // Handle Validation Error
+        if (error.name === 'ValidationError') {
+            error = handleValidationError(error);
+        }
+
         sendErrorProd(error, res);
     }
 };
