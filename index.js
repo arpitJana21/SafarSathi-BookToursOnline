@@ -51,8 +51,17 @@ mongoose
     });
 
 process.on('unhandledRejection', function (error) {
-    console.log('\n⚠ ⚠ ## UNHUNDLED REJECTION ## ⚠ ⚠');
-    console.log('ERROR : ', error.name, error.message);
+    console.log('\n⚠ ⚠ ## UNHUNDLED REJECTION ## ⚠ ⚠\n');
+    console.log(error);
+    console.log('SHUTTING DOWN THE SERVER...');
+    server.close(function () {
+        process.exit(1);
+    });
+});
+
+process.on('uncaughtException', function (error) {
+    console.log('\n⚠ ⚠ ## UNCAUGHT EXCEPTION ## ⚠ ⚠\n');
+    console.log(error);
     console.log('SHUTTING DOWN THE SERVER...');
     server.close(function () {
         process.exit(1);
