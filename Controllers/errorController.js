@@ -6,7 +6,6 @@ const handleCastErrorDB = function (error) {
 };
 
 const handleDuplicateDB = function (error) {
-    //  keyValue: { name: 'The Northern Lights' }
     const value = error.keyValue.name;
     const message = `Duplicate field value: "${value}". Please use another value.`;
     return new AppError(message, 400);
@@ -57,7 +56,9 @@ const globalErrorHandler = function (err, req, res, next) {
 
     if (process.env.NODE_ENV === 'development') {
         sendErrorDev(err, res);
-    } else {
+    }
+
+    if (process.env.NODE_ENV === 'production') {
         let error = { ...err };
 
         // Trying to access Item with Invalid ID Value
@@ -71,7 +72,7 @@ const globalErrorHandler = function (err, req, res, next) {
         }
 
         // Handle Validation Error
-        if (error.name === 'ValidationError') {
+        if (err.name === 'ValidationError') {
             error = handleValidationError(error);
         }
 

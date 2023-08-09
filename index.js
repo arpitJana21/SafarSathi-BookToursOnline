@@ -9,8 +9,11 @@ const globalErrorHandler = require('./Controllers/errorController');
 dotenv.config({ path: './config.env' });
 const DB_URL = process.env.DATABASE;
 const port = process.env.PORT;
+
+// Identifing if The server is running on "Production" or on "Development"
 if (process.env.npm_lifecycle_event === 'dev')
     process.env.NODE_ENV = 'development';
+else process.env.NODE_ENV = 'production';
 
 const app = express();
 
