@@ -2,9 +2,9 @@ const dotenv = require('dotenv');
 const express = require('express');
 const mongoose = require('mongoose');
 
-const tourRouter = require('./Routes/tours.routes');
-const AppError = require('./utils/appError');
-const globalErrorHandler = require('./Controllers/errorController');
+const { tourRouter } = require('./Routes/tours.routes');
+const { AppError } = require('./utils/appError');
+const { globalErrorHandler } = require('./Controllers/errorController');
 
 dotenv.config({ path: './config.env' });
 const DB_URL = process.env.DATABASE;

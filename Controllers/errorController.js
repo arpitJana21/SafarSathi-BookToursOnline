@@ -1,4 +1,4 @@
-const AppError = require('../utils/appError');
+const { AppError } = require('../utils/appError');
 
 const handleCastErrorDB = function (error) {
     const message = `Invalid ${error.path}: ${error.value}`;
@@ -80,4 +80,4 @@ const globalErrorHandler = function (err, req, res, next) {
     }
 };
 
-module.exports = globalErrorHandler;
+module.exports = { globalErrorHandler };
