@@ -55,12 +55,13 @@ userSchema.methods.correctPassword = async function (plainPass, hashPass) {
     return res;
 };
 
-userSchema.methods.changedPasswordAfter = async function (JWTTimestamp) {
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
     if (this.passwordChangedAt) {
         const changedTimeStamp = parseInt(
             this.passwordChangedAt.getTime() / 1000,
             10,
         );
+        console.log(changedTimeStamp, JWTTimestamp);
         return JWTTimestamp < changedTimeStamp;
     }
     return false;
