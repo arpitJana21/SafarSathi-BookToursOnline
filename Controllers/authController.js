@@ -106,7 +106,7 @@ const restrictTo = function (...roles) {
     return function (req, res, next) {
         if (!roles.includes(req.user.role)) {
             const error = new AppError(
-                'You do not have permission to perform this section',
+                'You do not have permission to perform this action',
                 403,
             );
             next(error);
@@ -115,4 +115,26 @@ const restrictTo = function (...roles) {
     };
 };
 
-module.exports = { signup, login, protect, restrictTo };
+const forgotPassword = catchAsync(async function (req, res, next) {
+    // Get User based on Email
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+        const error = new AppError('There is no user with email address.', 404);
+        return next(error);
+    }
+    // Generate the random reset token
+    const resetToken = user.createPasswordResetToken();
+
+    await user.save({ validateBeforeSave: false });
+    // Send it to user's email
+});
+const resetPassword = function (req, res, next) {};
+
+module.exports = {
+    signup,
+    login,
+    protect,
+    restrictTo,
+    forgotPassword,
+    resetPassword,
+};
