@@ -78,8 +78,8 @@ const protect = catchAsync(async function (req, res, next) {
     const decoded = await promisify(jwt.verify)(token, secKey);
 
     // Check if user still exist
-    const freshUser = await User.findById(decoded.id);
-    if (!freshUser) {
+    const currentUser = await User.findById(decoded.id);
+    if (!currentUser) {
         const error = new AppError(
             'The User belonging to the token is no longer Exist.',
         );
@@ -87,7 +87,7 @@ const protect = catchAsync(async function (req, res, next) {
     }
 
     // Check if user changed password after the token was issued
-    if (freshUser.changedPasswordAfter(decoded.iat)) {
+    if (currentUser.changedPasswordAfter(decoded.iat)) {
         const error = new AppError(
             'User recently changed password! Please log in again.',
             401,
@@ -96,6 +96,7 @@ const protect = catchAsync(async function (req, res, next) {
     }
 
     // Access to Protected Route
+    req.user = currentUser;
     next();
 });
 
