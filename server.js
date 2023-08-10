@@ -31,7 +31,7 @@ const server = app.listen(PORT_NUM, function () {
 mongoose
     .connect(DB_URL)
     .then(function () {
-        console.log('DataBase Conndection successful.');
+        console.log('DataBase Connection successful.');
     })
     .catch(function (error) {
         console.log('\n⚠ ⚠ ## DATABASE CONNECTION ERROR ## ⚠ ⚠\n');
