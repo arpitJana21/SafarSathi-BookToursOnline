@@ -1,7 +1,7 @@
 const express = require('express');
 
-const { tourRouter } = require('./Routes/tours.routes');
-const { userRouter } = require('./Routes/user.routes');
+const { tourRouter } = require('./Routes/toursRoutes');
+const { userRouter } = require('./Routes/userRoutes');
 const { AppError } = require('./utils/appError');
 const { globalErrorHandler } = require('./Controllers/errorController');
 

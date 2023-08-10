@@ -34,7 +34,7 @@ mongoose
         console.log('DataBase Connection successful.');
     })
     .catch(function (error) {
-        console.log('\n⚠ ⚠ ## DATABASE CONNECTION ERROR ## ⚠ ⚠\n');
+        console.log('\n⚠ DATABASE CONNECTION ERROR ⚠\n');
         console.log(error);
         console.log('SHUTTING DOWN THE SERVER...');
         server.close(function () {
@@ -43,7 +43,7 @@ mongoose
     });
 
 process.on('unhandledRejection', function (error) {
-    console.log('\n⚠ ⚠ ## UNHUNDLED REJECTION ## ⚠ ⚠\n');
+    console.log('\n⚠ UNHUNDLED REJECTION ⚠\n');
     console.log(error);
     console.log('SHUTTING DOWN THE SERVER...');
     server.close(function () {

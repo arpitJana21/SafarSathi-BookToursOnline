@@ -51,7 +51,9 @@ const login = async function (req, res, next) {
 
     res.status(200).json({
         status: 'success',
-        token: token,
+        data: {
+            token: token,
+        },
     });
 };
 
@@ -100,4 +102,17 @@ const protect = catchAsync(async function (req, res, next) {
     next();
 });
 
-module.exports = { signup, login, protect };
+const restrictTo = function (...roles) {
+    return function (req, res, next) {
+        if (!roles.includes(req.user.role)) {
+            const error = new AppError(
+                'You do not have permission to perform this section',
+                403,
+            );
+            next(error);
+        }
+        next();
+    };
+};
+
+module.exports = { signup, login, protect, restrictTo };
