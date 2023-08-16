@@ -12,24 +12,26 @@ const signToken = function (id) {
     return jwt.sign({ id: id }, secKey, { expiresIn: expTime });
 };
 
-const signup = catchAsync(async function (req, res, next) {
-    // const newUser = await User.create({
-    //     name: req.body.name,
-    //     email: req.body.email,
-    //     password: req.body.password,
-    //     passwordConfirm: req.body.passwordConfirm,
-    // });
-    const newUser = await User.create(req.body);
-
-    const token = signToken(newUser._id);
-
-    res.status(201).json({
+const createSendToken = function (user, startsCode, res) {
+    const token = signToken(user._id);
+    return res.status(startsCode).json({
         status: 'success',
         data: {
             token: token,
-            user: newUser,
+            user: user,
         },
     });
+};
+
+const signup = catchAsync(async function (req, res, next) {
+    const newUser = await User.create({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        passwordConfirm: req.body.passwordConfirm,
+    });
+    // const newUser = await User.create(req.body);
+    createSendToken(newUser, 201, res);
 });
 
 const login = async function (req, res, next) {
@@ -48,15 +50,7 @@ const login = async function (req, res, next) {
         const error = new AppError('Incorrect Email or Password', 401);
         return next(error);
     }
-
-    const token = signToken(user._id);
-
-    res.status(200).json({
-        status: 'success',
-        data: {
-            token: token,
-        },
-    });
+    createSendToken(user, 200, res);
 };
 
 const protect = catchAsync(async function (req, res, next) {
@@ -181,14 +175,27 @@ const resetPassword = catchAsync(async function (req, res, next) {
     await user.save();
 
     // Log the user In, send JWT
-    const token = signToken(user._id);
+    createSendToken(user, 200, res);
+});
 
-    return res.status(200).json({
-        status: 'success',
-        data: {
-            token: token,
-        },
-    });
+const updatePassword = catchAsync(async function (req, res, next) {
+    // Get user form collection
+    const user = await User.findById(req.user.id).select('+password');
+
+    // Check if POSTEed current password is correct
+    if (
+        !(await user.correctPassword(req.body.passwordCurrent, user.password))
+    ) {
+        return next(new AppError('Your current password is wrong.', 401));
+    }
+
+    // If so, update password
+    user.password = req.body.password;
+    user.passwordConfirm = req.body.passwordConfirm;
+    await user.save();
+
+    // Log the user In, send JWT
+    createSendToken(user, 200, res);
 });
 
 module.exports = {
@@ -198,4 +205,5 @@ module.exports = {
     restrictTo,
     forgotPassword,
     resetPassword,
+    updatePassword,
 };
