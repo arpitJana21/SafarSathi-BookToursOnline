@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const { User } = require('../Models/userModel');
@@ -128,13 +129,10 @@ const forgotPassword = catchAsync(async function (req, res, next) {
     await user.save({ validateBeforeSave: false });
 
     // Send it to user's email
-    const resetURL = `${req.protocol}://${req.get(
-        'host',
-    )}/api/v1/users/resetPassword/${resetToken}`;
-
-    const message = `Forgot your password? Submit a PATCH request with your new password 
-    and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, 
-    please ignore this email!`;
+    const { protocol } = req;
+    const host = req.get('host');
+    const resetURL = `${protocol}://${host}/api/v1/users/resetPassword/${resetToken}`;
+    const message = `Forgot your password?\n\nSubmit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
 
     try {
         await sendEmail({
@@ -157,7 +155,41 @@ const forgotPassword = catchAsync(async function (req, res, next) {
         next(error);
     }
 });
-const resetPassword = function (req, res, next) {};
+
+const resetPassword = catchAsync(async function (req, res, next) {
+    // Get User based on the token
+    const hashedToken = crypto
+        .createHash('sha256')
+        .update(req.params.token)
+        .digest('hex');
+
+    const user = await User.findOne({
+        passwordResetToken: hashedToken,
+        passwordResetExpires: { $gt: Date.now() },
+    });
+
+    // If Token is not expired, and there is user, set the new Password
+    if (!user) {
+        return next(new AppError('Token is invalid of has expired'));
+    }
+
+    // Update Changed Password
+    user.password = req.body.password;
+    user.passwordConfirm = req.body.passwordConfirm;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    // Log the user In, send JWT
+    const token = signToken(user._id);
+
+    return res.status(200).json({
+        status: 'success',
+        data: {
+            token: token,
+        },
+    });
+});
 
 module.exports = {
     signup,
