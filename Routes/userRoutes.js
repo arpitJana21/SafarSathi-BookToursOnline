@@ -14,4 +14,6 @@ userRouter.patch(
     authController.updatePassword,
 );
 
+userRouter.patch('/updateMe', authController.protect);
+
 module.exports = { userRouter };
