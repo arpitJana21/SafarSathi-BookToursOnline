@@ -1,5 +1,6 @@
 const express = require('express');
 const authController = require('../Controllers/authController');
+const userController = require('../Controllers/userController');
 
 const userRouter = express.Router();
 
@@ -14,6 +15,7 @@ userRouter.patch(
     authController.updatePassword,
 );
 
-userRouter.patch('/updateMe', authController.protect);
+userRouter.patch('/updateMe', authController.protect, userController.updateMe);
+userRouter.delete('/deleteMe', authController.protect, userController.deleteMe);
 
 module.exports = { userRouter };

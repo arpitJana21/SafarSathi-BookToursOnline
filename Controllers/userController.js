@@ -36,4 +36,12 @@ const updateMe = catchAsync(async function (req, res, next) {
     });
 });
 
-module.exports = { updateMe };
+const deleteMe = async function (req, res, next) {
+    await User.findByIdAndUpdate(req.user.id, { active: false });
+    return res.status(204).json({
+        status: 'success',
+        data: null,
+    });
+};
+
+module.exports = { updateMe, deleteMe };
