@@ -1,5 +1,7 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+
 const { tourRouter } = require('./Routes/toursRoutes');
 const { userRouter } = require('./Routes/userRoutes');
 const { AppError } = require('./utils/appError');
@@ -8,6 +10,11 @@ const { globalErrorHandler } = require('./Controllers/errorController');
 const app = express();
 
 // Global Middleware
+
+// Set Security HTTP Headers
+app.use(helmet());
+
+// Set Rate Limit
 const limiter = rateLimit({
     max: 100,
     windowMs: 60 * 60 * 1000,
@@ -16,8 +23,8 @@ const limiter = rateLimit({
 
 app.use('/api', limiter);
 
-// JSON Middleware
-app.use(express.json());
+// Body parser, reading data from body into req.body
+app.use(express.json({ limit: '10kb' }));
 
 // Routes Middlewares
 app.use('/api/v1/tours/', tourRouter);

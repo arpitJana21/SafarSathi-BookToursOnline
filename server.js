@@ -15,6 +15,7 @@ const DB_URL = process.env.DATABASE;
 const PORT_NUM = process.env.PORT;
 
 // Identifing if The server is running on "Production" or on "Development"
+
 if (process.env.npm_lifecycle_event === 'dev') {
     process.env.NODE_ENV = 'development';
     console.log('Server is Running on *DEVELOPMENT');
