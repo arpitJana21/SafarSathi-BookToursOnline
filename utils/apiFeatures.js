@@ -2,6 +2,7 @@ class APIFeatures {
     constructor(query, reqQuery) {
         this.query = query;
         this.reqQuery = reqQuery;
+        console.log('API Features');
     }
 
     filter() {
@@ -18,6 +19,8 @@ class APIFeatures {
             return `$${match}`;
         });
         queryObj = JSON.parse(queryStr);
+
+        console.log(queryObj);
 
         this.query = this.query.find(queryObj);
         return this;
@@ -36,7 +39,7 @@ class APIFeatures {
 
     limitFields() {
         // 4) FIELD LIMITING
-        if (this.reqQuery.finds) {
+        if (this.reqQuery.fields) {
             const fields = this.reqQuery.fields.split(',').join(' ');
             this.query = this.query.select(fields);
         } else {

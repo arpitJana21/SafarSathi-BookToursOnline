@@ -35,8 +35,18 @@ app.use(mongoSanitize());
 // Data Sanitization against XSS
 app.use(xss());
 
-// Prevent Paramete Polution
-app.use(hpp());
+// Prevent Parameter Polution
+app.use(
+    hpp({
+        whitelist: [
+            'duration',
+            'ratingsQuantity',
+            'ratingsAverage',
+            'maxGroupSize',
+            'price',
+        ],
+    }),
+);
 
 // Routes Middlewares
 app.use('/api/v1/tours/', tourRouter);
