@@ -67,6 +67,12 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
+userSchema.pre(/^find/, function (next) {
+    // this points
+    this.find({ active: true });
+    next();
+});
+
 userSchema.methods.correctPassword = async function (plainPass, hashPass) {
     const res = await bcrypt.compare(plainPass, hashPass);
     return res;

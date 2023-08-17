@@ -44,4 +44,14 @@ const deleteMe = async function (req, res, next) {
     });
 };
 
-module.exports = { updateMe, deleteMe };
+const getAllUsers = catchAsync(async function (req, res, next) {
+    const users = await User.find();
+
+    return res.status(200).json({
+        status: 'success',
+        results: users.length,
+        data: { users },
+    });
+});
+
+module.exports = { updateMe, deleteMe, getAllUsers };
