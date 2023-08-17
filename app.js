@@ -3,6 +3,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const hpp = require('hpp');
 
 const { tourRouter } = require('./Routes/toursRoutes');
 const { userRouter } = require('./Routes/userRoutes');
@@ -33,6 +34,9 @@ app.use(mongoSanitize());
 
 // Data Sanitization against XSS
 app.use(xss());
+
+// Prevent Paramete Polution
+app.use(hpp());
 
 // Routes Middlewares
 app.use('/api/v1/tours/', tourRouter);
