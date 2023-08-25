@@ -10,7 +10,13 @@ reviewRouter
     .post(
         authController.protect,
         authController.restrictTo('user'),
+        reviewController.setTourUserIds,
         reviewController.createReview,
     );
+
+reviewRouter
+    .route('/:id')
+    .delete(reviewController.deleteReview)
+    .patch(reviewController.updateReview);
 
 module.exports = { reviewRouter };

@@ -1,6 +1,7 @@
 const { User } = require('../Models/userModel');
 const { catchAsync } = require('../utils/catchAsync');
 const { AppError } = require('../utils/appError');
+const factory = require('./handleFactory');
 
 const filterObj = function (obj, ...allowedFields) {
     const newObj = {};
@@ -54,4 +55,7 @@ const getAllUsers = catchAsync(async function (req, res, next) {
     });
 });
 
-module.exports = { updateMe, deleteMe, getAllUsers };
+const deleteUser = factory.deleteOne(User);
+const updateUser = factory.updateOne(User);
+
+module.exports = { updateMe, deleteMe, getAllUsers, deleteUser, updateUser };
