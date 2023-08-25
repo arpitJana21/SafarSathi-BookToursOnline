@@ -4,6 +4,8 @@ const authController = require('../Controllers/authController');
 
 const reviewRouter = express.Router({ mergeParams: true });
 
+reviewRouter.use(authController.protect);
+
 reviewRouter
     .route('/')
     .get(reviewController.getAllReviews)
@@ -17,7 +19,13 @@ reviewRouter
 reviewRouter
     .route('/:id')
     .get(reviewController.getReview)
-    .delete(reviewController.deleteReview)
-    .patch(reviewController.updateReview);
+    .delete(
+        authController.restrictTo('user', 'admin'),
+        reviewController.deleteReview,
+    )
+    .patch(
+        authController.restrictTo('user', 'admin'),
+        reviewController.updateReview,
+    );
 
 module.exports = { reviewRouter };
