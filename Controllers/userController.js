@@ -57,5 +57,13 @@ const getAllUsers = catchAsync(async function (req, res, next) {
 
 const deleteUser = factory.deleteOne(User);
 const updateUser = factory.updateOne(User);
+const getUser = factory.getOne(User);
 
-module.exports = { updateMe, deleteMe, getAllUsers, deleteUser, updateUser };
+module.exports = {
+    updateMe,
+    deleteMe,
+    getAllUsers,
+    deleteUser,
+    updateUser,
+    getUser,
+};

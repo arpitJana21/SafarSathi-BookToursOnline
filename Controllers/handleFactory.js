@@ -41,4 +41,20 @@ const createOne = function (Model) {
     });
 };
 
-module.exports = { deleteOne, updateOne, createOne };
+const getOne = function (Model, populateOptions) {
+    return catchAsync(async function (req, res, next) {
+        const query = Model.findById(req.params.id);
+        if (populateOptions) query.populate(populateOptions);
+        const doc = await query;
+
+        if (!doc) {
+            return next(new AppError('No document found with that ID', 404));
+        }
+        return res.status(200).json({
+            status: 'success',
+            data: { data: doc },
+        });
+    });
+};
+
+module.exports = { deleteOne, updateOne, createOne, getOne };
