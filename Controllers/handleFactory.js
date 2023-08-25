@@ -67,6 +67,7 @@ const getAll = function (Model) {
         // EXECUTE QUERY
         let features = new APIFeatures(Model.find(filter), req.query);
         features = features.filter().sort().limitFields().paginate();
+        // const docs = await features.query.explain();
         const docs = await features.query;
 
         // SEND RESPONSE

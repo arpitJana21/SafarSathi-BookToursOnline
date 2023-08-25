@@ -120,6 +120,9 @@ const tourSchema = new mongoose.Schema(
     },
 );
 
+// tourSchema.index({ price: 1 });
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+
 // Virtual Fields
 tourSchema.virtual('durationWeeks').get(function () {
     if (this.duration) return this.duration / 7;
