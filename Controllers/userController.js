@@ -45,6 +45,11 @@ const deleteMe = async function (req, res, next) {
     });
 };
 
+const getMe = function (req, res, next) {
+    req.params.id = req.user.id;
+    next();
+};
+
 const getAllUsers = factory.getAll(User);
 const deleteUser = factory.deleteOne(User);
 const updateUser = factory.updateOne(User);
@@ -57,4 +62,5 @@ module.exports = {
     deleteUser,
     updateUser,
     getUser,
+    getMe,
 };
