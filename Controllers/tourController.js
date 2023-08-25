@@ -1,5 +1,4 @@
 const { Tour } = require('../Models/tourModel');
-const { APIFeatures } = require('../utils/apiFeatures');
 const { catchAsync } = require('../utils/catchAsync');
 const factory = require('./handleFactory');
 
@@ -9,21 +8,6 @@ const aliasTopTours = async function (req, res, next) {
     req.query.fields = 'name,price,ratingsAverage,summery,difficulty';
     next();
 };
-
-const getAllTours = catchAsync(async function (req, res, next) {
-    // EXECUTE QUERY
-    let features = new APIFeatures(Tour.find(), req.query);
-    console.log(req.query);
-    features = features.filter().sort().limitFields().paginate();
-    const tours = await features.query;
-
-    // SEND RESPONSE
-    return res.status(200).json({
-        status: 'success',
-        results: tours.length,
-        data: { tours },
-    });
-});
 
 const getTourStats = catchAsync(async function (req, res, next) {
     const stats = await Tour.aggregate([
@@ -110,6 +94,21 @@ const getMonthlyPlan = catchAsync(async function (req, res, next) {
 });
 
 /*
+const getAllTours = catchAsync(async function (req, res, next) {
+    // EXECUTE QUERY
+    let features = new APIFeatures(Tour.find(), req.query);
+    console.log(req.query);
+    features = features.filter().sort().limitFields().paginate();
+    const tours = await features.query;
+
+    // SEND RESPONSE
+    return res.status(200).json({
+        status: 'success',
+        results: tours.length,
+        data: { tours },
+    });
+});
+
 const getTour = catchAsync(async function (req, res, next) {
     const tour = await Tour.findById(req.params.id).populate({
         path: 'reviews',
@@ -160,6 +159,7 @@ const deleteTour = catchAsync(async function (req, res, next) {
 });
 */
 
+const getAllTours = factory.getAll(Tour);
 const createTour = factory.createOne(Tour);
 const updateTour = factory.updateOne(Tour);
 const deleteTour = factory.deleteOne(Tour);

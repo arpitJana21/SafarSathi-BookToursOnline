@@ -45,16 +45,7 @@ const deleteMe = async function (req, res, next) {
     });
 };
 
-const getAllUsers = catchAsync(async function (req, res, next) {
-    const users = await User.find();
-
-    return res.status(200).json({
-        status: 'success',
-        results: users.length,
-        data: { users },
-    });
-});
-
+const getAllUsers = factory.getAll(User);
 const deleteUser = factory.deleteOne(User);
 const updateUser = factory.updateOne(User);
 const getUser = factory.getOne(User);
