@@ -1,6 +1,7 @@
 const { Tour } = require('../Models/tourModel');
 const { catchAsync } = require('../utils/catchAsync');
 const factory = require('./handleFactory');
+const { AppError } = require('../utils/appError');
 
 const aliasTopTours = async function (req, res, next) {
     req.query.limit = '5';
@@ -159,6 +160,32 @@ const deleteTour = catchAsync(async function (req, res, next) {
 });
 */
 
+const getToursWithin = catchAsync(async function (req, res, next) {
+    const { distance, latlng, unit } = req.params;
+    const [lat, lng] = latlng.split(',');
+    const radius = unit === 'mi' ? distance / 3963.2 : distance / 6378.1;
+    if (!lat || !lng) {
+        next(
+            new AppError(
+                'Please provide latitute in the fromat lat, lng.',
+                400,
+            ),
+        );
+    }
+
+    const tours = await Tour.find({
+        startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
+    });
+
+    res.status(200).json({
+        status: 'success',
+        results: tours.length,
+        data: {
+            data: tours,
+        },
+    });
+});
+
 const getAllTours = factory.getAll(Tour);
 const createTour = factory.createOne(Tour);
 const updateTour = factory.updateOne(Tour);
@@ -174,4 +201,5 @@ module.exports = {
     aliasTopTours,
     getTourStats,
     getMonthlyPlan,
+    getToursWithin,
 };
