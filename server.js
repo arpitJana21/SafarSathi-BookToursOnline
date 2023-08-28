@@ -24,7 +24,7 @@ if (process.env.npm_lifecycle_event === 'dev') {
 }
 
 const server = app.listen(PORT_NUM, function () {
-    console.log(`Server URL: http://127.0.0.1:${PORT_NUM}/api/v1/`);
+    console.log(`Server URL: http://127.0.0.1:${PORT_NUM}/`);
     console.log('Wait for DataBase Connection...');
 });
 

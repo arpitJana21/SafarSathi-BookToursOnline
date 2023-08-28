@@ -10,6 +10,7 @@ const morgan = require('morgan');
 const { tourRouter } = require('./Routes/toursRoutes');
 const { userRouter } = require('./Routes/userRoutes');
 const { reviewRouter } = require('./Routes/reviewRoute');
+const { viewRouter } = require('./Routes/viewRoutes');
 
 const { AppError } = require('./utils/appError');
 const { globalErrorHandler } = require('./Controllers/errorController');
@@ -61,13 +62,7 @@ app.use(
 );
 
 // Routes Middlewares
-app.get('/', (req, res) => {
-    res.status(200).render('base', {
-        tour: 'The Forest Hiker',
-        user: 'Jonas',
-    });
-});
-
+app.use('/', viewRouter);
 app.use('/api/v1/tours/', tourRouter);
 app.use('/api/v1/users/', userRouter);
 app.use('/api/v1/reviews/', reviewRouter);

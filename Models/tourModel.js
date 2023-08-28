@@ -158,7 +158,7 @@ tourSchema.virtual('reviews', {
 // DOCUMENT MIDDLEWARE :
 // runs before save(); create();
 tourSchema.pre('save', function (next) {
-    this.slug = this.name.toLowerCase();
+    this.slug = this.name.toLowerCase().split(' ').join('-');
     next();
 });
 
