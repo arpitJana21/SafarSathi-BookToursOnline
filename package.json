@@ -5,7 +5,6 @@
     "main": "server.js",
     "scripts": {
         "start": "node server.js",
-        "prod": "nodemon server.js",
         "dev": "nodemon server.js"
     },
     "repository": "https://github.com/arpitJana21/SafarSathi-BookToursOnline.git",
@@ -26,7 +25,9 @@
         "hpp": "^0.2.3",
         "jsonwebtoken": "^9.0.1",
         "mongoose": "^7.4.1",
+        "morgan": "^1.10.0",
         "nodemailer": "^6.9.4",
+        "pug": "^3.0.2",
         "validator": "^13.11.0",
         "xss-clean": "^0.1.4"
     },
