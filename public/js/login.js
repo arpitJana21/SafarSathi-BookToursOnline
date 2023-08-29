@@ -1,4 +1,15 @@
 /*eslint-disable*/
+const loginForm = document.querySelector('.form');
+
+if (loginForm) {
+    loginForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        login(email, password);
+    });
+}
+
 async function login(email, password) {
     try {
         const res = await axios({
@@ -11,23 +22,26 @@ async function login(email, password) {
         });
 
         if (res.data.status === 'success') {
-            alert('Logged in successfully');
+            showAlert('success', 'Logged in Successfully');
             window.setTimeout(function () {
                 location.assign('/');
             }, 1500);
         }
     } catch (error) {
-        alert(error.response.data.message);
+        showAlert('error', error.response.data.message);
     }
 }
 
-const loginForm = document.querySelector('.form');
+function showAlert(type, msg) {
+    hideAlert();
+    const markUp = `<div class="alert alert--${type}">${msg}</div>`;
+    document.querySelector('body').insertAdjacentHTML('afterbegin', markUp);
+    window.setTimeout(hideAlert, 5000);
+}
 
-if (loginForm) {
-    loginForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        login(email, password);
-    });
+function hideAlert() {
+    const el = document.querySelector('.alert');
+    if (el) {
+        el.parentElement.removeChild(el);
+    }
 }

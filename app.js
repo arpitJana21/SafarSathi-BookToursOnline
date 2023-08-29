@@ -65,7 +65,7 @@ app.use(
 
 // Test Middleware
 app.use(function (req, res, next) {
-    console.log(req.cookies);
+    // console.log(req.cookies);
     next();
 });
 
