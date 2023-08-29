@@ -29,4 +29,15 @@ const getTour = catchAsync(async function (req, res) {
         });
 });
 
-module.exports = { getOverview, getTour };
+const getLoginForm = function (req, res, next) {
+    res.status(200)
+        .set(
+            'Content-Security-Policy',
+            "script-src 'self' https://cdn.jsdelivr.net/npm/axios@1.5.0/dist/axios.min.js 'unsafe-inline' 'unsafe-eval';",
+        )
+        .render('login', {
+            title: 'Log into your account',
+        });
+};
+
+module.exports = { getOverview, getTour, getLoginForm };
