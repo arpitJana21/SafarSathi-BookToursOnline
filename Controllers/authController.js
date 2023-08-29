@@ -112,29 +112,43 @@ const protect = catchAsync(async function (req, res, next) {
 });
 
 // Only for Rendered Pages
-const isLoggedIn = catchAsync(async function (req, res, next) {
-    const secKey = process.env.JWT_SECRET;
-    const token = req.cookies.jwt;
-    if (!token) return next();
+const isLoggedIn = async function (req, res, next) {
+    try {
+        const secKey = process.env.JWT_SECRET;
+        const token = req.cookies.jwt;
+        if (!token) return next();
 
-    // Verify token
-    const decoded = await promisify(jwt.verify)(token, secKey);
+        // Verify token
+        const decoded = await promisify(jwt.verify)(token, secKey);
 
-    // Check if user still exist
-    const currentUser = await User.findById(decoded.id);
-    if (!currentUser) {
+        // Check if user still exist
+        const currentUser = await User.findById(decoded.id);
+        if (!currentUser) {
+            return next();
+        }
+
+        // Check if user changed password after the token was issued
+        if (currentUser.changedPasswordAfter(decoded.iat)) {
+            return next();
+        }
+
+        // There is a logged in User
+        res.locals.user = currentUser;
+        return next();
+    } catch (error) {
         return next();
     }
+};
 
-    // Check if user changed password after the token was issued
-    if (currentUser.changedPasswordAfter(decoded.iat)) {
-        return next();
-    }
-
-    // There is a logged in User
-    res.locals.user = currentUser;
-    return next();
-});
+const logout = function (req, res) {
+    res.cookie('jwt', 'loggedout', {
+        expires: new Date(Date.now() + 10 * 1000),
+        httpOnly: true,
+    });
+    res.status(200).json({
+        status: 'success',
+    });
+};
 
 const restrictTo = function (...roles) {
     return function (req, res, next) {
@@ -245,4 +259,5 @@ module.exports = {
     resetPassword,
     updatePassword,
     isLoggedIn,
+    logout,
 };
