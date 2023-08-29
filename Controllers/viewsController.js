@@ -4,11 +4,8 @@ const { catchAsync } = require('../utils/catchAsync');
 const getOverview = catchAsync(async function (req, res) {
     // Get Tour Data from collection
     const tours = await Tour.find();
-
     // Build template
-
     // Render that template using tour data from 1
-
     res.status(200).render('overview', {
         title: 'All Tours',
         tours: tours,
@@ -21,8 +18,11 @@ const getTour = catchAsync(async function (req, res) {
         path: 'reviews',
         fields: 'review rating user',
     });
-
-    res.status(200).render('tour', { title: 'Forest Hiker' });
+    console.log(tour.reviews);
+    res.status(200).render('tour', {
+        title: `${tour.name} Tour`,
+        tour: tour,
+    });
 });
 
 module.exports = { getOverview, getTour };
