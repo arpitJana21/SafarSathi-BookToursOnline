@@ -111,6 +111,31 @@ const protect = catchAsync(async function (req, res, next) {
     next();
 });
 
+// Only for Rendered Pages
+const isLoggedIn = catchAsync(async function (req, res, next) {
+    const secKey = process.env.JWT_SECRET;
+    const token = req.cookies.jwt;
+    if (!token) return next();
+
+    // Verify token
+    const decoded = await promisify(jwt.verify)(token, secKey);
+
+    // Check if user still exist
+    const currentUser = await User.findById(decoded.id);
+    if (!currentUser) {
+        return next();
+    }
+
+    // Check if user changed password after the token was issued
+    if (currentUser.changedPasswordAfter(decoded.iat)) {
+        return next();
+    }
+
+    // There is a logged in User
+    res.locals.user = currentUser;
+    return next();
+});
+
 const restrictTo = function (...roles) {
     return function (req, res, next) {
         if (!roles.includes(req.user.role)) {
@@ -219,4 +244,5 @@ module.exports = {
     forgotPassword,
     resetPassword,
     updatePassword,
+    isLoggedIn,
 };

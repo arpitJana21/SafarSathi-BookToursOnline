@@ -5,7 +5,9 @@
     "main": "server.js",
     "scripts": {
         "start": "node server.js",
-        "dev": "nodemon server.js"
+        "dev": "nodemon server.js",
+        "watchJS": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
+        "buildJS": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
     },
     "repository": "https://github.com/arpitJana21/SafarSathi-BookToursOnline.git",
     "keywords": [
@@ -16,6 +18,8 @@
     "author": "Arpit Jana",
     "license": "MIT License",
     "dependencies": {
+        "@babel/polyfill": "^7.12.1",
+        "axios": "^1.5.0",
         "bcryptjs": "^2.4.3",
         "cookie-parser": "^1.4.6",
         "dotenv": "^16.3.1",
