@@ -241,15 +241,23 @@ const userUpdatePassFrom = document.querySelector('.from-user-password');
 
 if (userUpdatePassFrom) {
     // const locations = JSON.parse(mapBox.dataset.locations);
-    userUpdatePassFrom.addEventListener('submit', function (e) {
+    userUpdatePassFrom.addEventListener('submit', async function (e) {
         e.preventDefault();
+        document.querySelector('.btn--save-password').textContent =
+            'Updating...';
         const currPass = document.getElementById('password-current');
         const newPass = document.getElementById('password');
         const newPassConfirm = document.getElementById('password-confirm');
-        updateUserPass(currPass.value, newPass.value, newPassConfirm.value);
+        await updateUserPass(
+            currPass.value,
+            newPass.value,
+            newPassConfirm.value,
+        );
         currPass.value = null;
         newPass.value = null;
         newPassConfirm.value = null;
+        document.querySelector('.btn--save-password').textContent =
+            'Save password';
     });
 }
 
