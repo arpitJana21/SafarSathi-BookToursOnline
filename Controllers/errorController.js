@@ -29,34 +29,61 @@ const handleJWTExpireError = function () {
     return new AppError(message, 401);
 };
 
-const sendErrorDev = function (err, res) {
-    return res.status(err.statusCode).json({
-        status: err.status,
-        error: err,
-        message: err.message,
-        stack: err.stack,
-    });
-};
-
-const sendErrorProd = function (err, res) {
-    // Operational Trusted error: Send to message to client
-    if (err.isOperational) {
+const sendErrorDev = function (req, err, res) {
+    // API
+    if (req.originalUrl.startsWith('/api')) {
         res.status(err.statusCode).json({
             status: err.status,
+            error: err,
             message: err.message,
+            stack: err.stack,
         });
-
-        // Programming or other unknown Error : don't leak the error details
     } else {
-        // Log Error
-        console.error(err);
+        // Rendered Website
+        res.status(err.statusCode).render('error', {
+            title: 'Something went worng',
+            msg: err.message,
+        });
+    }
+};
 
-        // Send generic message
-        res.status(500).json({
+const sendErrorProd = function (req, err, res) {
+    // A) API
+    if (req.originalUrl.startsWith('/api')) {
+        // A) Operational, trusted error: send message to client
+        if (err.isOperational) {
+            return res.status(err.statusCode).json({
+                status: err.status,
+                message: err.message,
+            });
+        }
+        // B) Programming or other unknown error: don't leak error details
+        // 1) Log error
+        console.error('ERROR 💥', err);
+        // 2) Send generic message
+        return res.status(500).json({
             status: 'error',
             message: 'Something went very wrong!',
         });
     }
+
+    // B) RENDERED WEBSITE
+    // A) Operational, trusted error: send message to client
+    if (err.isOperational) {
+        console.log(err);
+        return res.status(err.statusCode).render('error', {
+            title: 'Something went wrong!',
+            msg: err.message,
+        });
+    }
+    // B) Programming or other unknown error: don't leak error details
+    // 1) Log error
+    console.error('ERROR 💥', err);
+    // 2) Send generic message
+    return res.status(err.statusCode).render('error', {
+        title: 'Something went wrong!',
+        msg: 'Please try again later.',
+    });
 };
 
 const globalErrorHandler = function (err, req, res, next) {
@@ -65,11 +92,12 @@ const globalErrorHandler = function (err, req, res, next) {
     err.status = err.status || 'error';
 
     if (process.env.NODE_ENV === 'development') {
-        sendErrorDev(err, res);
+        sendErrorDev(req, err, res);
     }
 
     if (process.env.NODE_ENV === 'production') {
         let error = { ...err };
+        error.message = err.message;
 
         // Trying to access Item with Invalid ID Value
         if (err.name === 'CastError') {
@@ -94,7 +122,7 @@ const globalErrorHandler = function (err, req, res, next) {
         if (err.name === 'TokenExpiredError') {
             error = handleJWTExpireError();
         }
-        sendErrorProd(error, res);
+        sendErrorProd(req, error, res);
     }
 };
 

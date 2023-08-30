@@ -18,6 +18,7 @@ const { globalErrorHandler } = require('./Controllers/errorController');
 
 const app = express();
 
+// Setting The Pug Template
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -40,9 +41,13 @@ const limiter = rateLimit({
 
 app.use('/api', limiter);
 
-// Body parser, reading data from body into req.body
+// Body parser
+// Receive JSON Data from Req.body
 app.use(express.json({ limit: '10kb' }));
+// Receive Cookie from Browser
 app.use(cookieParser());
+// Receive From Data
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 // Data Sanitization against NO-SQL query injection
 app.use(mongoSanitize());

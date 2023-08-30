@@ -12,6 +12,8 @@ const filterObj = function (obj, ...allowedFields) {
 };
 
 const updateMe = catchAsync(async function (req, res, next) {
+    console.log(req.body);
+
     // Create Error if user POSTs password data
     if (req.body.password || req.body.passwordConfirm) {
         return next(AppError('This route is not for password Updates.', 400));
