@@ -216,12 +216,63 @@ async function updateUserData(nameInp, emailInp) {
 
         if (res.data.status === 'success') {
             showAlert('success', 'User Details Updated Successfully');
-            window.setTimeout(function () {
-                location.reload(true);
-            }, 1500);
+            // window.setTimeout(function () {
+            //     location.reload(true);
+            // }, 1500);
         }
     } catch (error) {
         console.log(error);
         showAlert('error', 'Error in Updateing User Details! Try again');
+    }
+}
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+// UPDATING USER PASSWORD
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+const userUpdatePassFrom = document.querySelector('.from-user-password');
+
+if (userUpdatePassFrom) {
+    // const locations = JSON.parse(mapBox.dataset.locations);
+    userUpdatePassFrom.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const currPass = document.getElementById('password-current');
+        const newPass = document.getElementById('password');
+        const newPassConfirm = document.getElementById('password-confirm');
+        updateUserPass(currPass.value, newPass.value, newPassConfirm.value);
+        currPass.value = null;
+        newPass.value = null;
+        newPassConfirm.value = null;
+    });
+}
+
+async function updateUserPass(currPass, newPass, newPassConfirm) {
+    try {
+        const res = await axios({
+            method: 'PATCH',
+            url: `http://127.0.0.1:8000/api/v1/users/updateMyPassword`,
+            data: {
+                passwordCurrent: currPass,
+                password: newPass,
+                passwordConfirm: newPassConfirm,
+            },
+        });
+
+        if (res.data.status === 'success') {
+            showAlert('success', 'User Password Updated Successfully');
+            // window.setTimeout(function () {
+            //     location.reload(true);
+            // }, 1500);
+        }
+    } catch (error) {
+        console.log(error);
+        showAlert('error', 'Error in Updateing User Password! Try again');
     }
 }
