@@ -15,13 +15,36 @@ function showAlert(type, msg) {
     hideAlert();
     const markUp = `<div class="alert alert--${type}">${msg}</div>`;
     document.querySelector('body').insertAdjacentHTML('afterbegin', markUp);
-    window.setTimeout(hideAlert, 5000);
+    window.setTimeout(hideAlert, 3000);
 }
 
 function hideAlert() {
     const el = document.querySelector('.alert');
     if (el) {
         el.parentElement.removeChild(el);
+    }
+}
+
+async function updateSettings(data, type) {
+    try {
+        const url =
+            type === 'password'
+                ? 'http://127.0.0.1:8000/api/v1/users/updateMyPassword'
+                : 'http://127.0.0.1:8000/api/v1/users/updateMe';
+
+        const res = await axios({
+            method: 'PATCH',
+            url: url,
+            data: data,
+        });
+        if (res.data.status === 'success') {
+            showAlert('success', `${type.toUpperCase()} updated successfully`);
+            window.setTimeout(function () {
+                location.reload(true);
+            }, 3000);
+        }
+    } catch (error) {
+        showAlert('error', err.response.data.message);
     }
 }
 //////////////////////////////////////
@@ -139,20 +162,6 @@ async function login(email, password) {
     }
 }
 
-function showAlert(type, msg) {
-    hideAlert();
-    const markUp = `<div class="alert alert--${type}">${msg}</div>`;
-    document.querySelector('body').insertAdjacentHTML('afterbegin', markUp);
-    window.setTimeout(hideAlert, 5000);
-}
-
-function hideAlert() {
-    const el = document.querySelector('.alert');
-    if (el) {
-        el.parentElement.removeChild(el);
-    }
-}
-
 async function logout() {
     try {
         const res = await axios({
@@ -160,10 +169,10 @@ async function logout() {
             url: `http://127.0.0.1:8000/api/v1/users/logout`,
         });
         if (res.data.status === 'success') {
-            showAlert('error', 'LoggedOut Successfully');
+            showAlert('success', 'LoggedOut Successfully');
             window.setTimeout(function () {
                 location.assign('/');
-            }, 1500);
+            }, 3000);
         }
     } catch (error) {
         console.log(error);
@@ -192,38 +201,19 @@ if (userUpdateFrom) {
         const emailInp = document.getElementById('email');
         const nameVal = nameInp.value;
         const emailVal = emailInp.value;
-        console.log(nameInp.dataset.name);
-        const currUserName = nameInp.dataset.name;
-        const currUserEmail = emailInp.dataset.email;
-        if (nameVal === currUserName && emailVal === currUserEmail) {
-            showAlert('error', 'Kindly Enter Your New Details');
-            return;
-        }
-        updateUserData(nameVal, emailVal);
+        // console.log(nameInp.dataset.name);
+        // const currUserName = nameInp.dataset.name;
+        // const currUserEmail = emailInp.dataset.email;
+        // if (nameVal === currUserName && emailVal === currUserEmail) {
+        //     showAlert('error', 'Kindly Enter Your New Details');
+        //     return;
+        // }
+        const form = new FormData();
+        form.append('name', document.getElementById('name').value);
+        form.append('email', document.getElementById('email').value);
+        form.append('photo', document.getElementById('photo').files[0]);
+        updateSettings(form, 'data');
     });
-}
-
-async function updateUserData(nameInp, emailInp) {
-    try {
-        const res = await axios({
-            method: 'PATCH',
-            url: `http://127.0.0.1:8000/api/v1/users/updateMe`,
-            data: {
-                name: nameInp,
-                email: emailInp,
-            },
-        });
-
-        if (res.data.status === 'success') {
-            showAlert('success', 'User Details Updated Successfully');
-            // window.setTimeout(function () {
-            //     location.reload(true);
-            // }, 1500);
-        }
-    } catch (error) {
-        console.log(error);
-        showAlert('error', 'Error in Updateing User Details! Try again');
-    }
 }
 //////////////////////////////////////
 //////////////////////////////////////
@@ -248,10 +238,13 @@ if (userUpdatePassFrom) {
         const currPass = document.getElementById('password-current');
         const newPass = document.getElementById('password');
         const newPassConfirm = document.getElementById('password-confirm');
-        await updateUserPass(
-            currPass.value,
-            newPass.value,
-            newPassConfirm.value,
+        await updateSettings(
+            {
+                passwordCurrent: currPass.value,
+                password: newPass.value,
+                passwordConfirm: newPassConfirm.value,
+            },
+            'password',
         );
         currPass.value = null;
         newPass.value = null;
@@ -259,28 +252,4 @@ if (userUpdatePassFrom) {
         document.querySelector('.btn--save-password').textContent =
             'Save password';
     });
-}
-
-async function updateUserPass(currPass, newPass, newPassConfirm) {
-    try {
-        const res = await axios({
-            method: 'PATCH',
-            url: `http://127.0.0.1:8000/api/v1/users/updateMyPassword`,
-            data: {
-                passwordCurrent: currPass,
-                password: newPass,
-                passwordConfirm: newPassConfirm,
-            },
-        });
-
-        if (res.data.status === 'success') {
-            showAlert('success', 'User Password Updated Successfully');
-            // window.setTimeout(function () {
-            //     location.reload(true);
-            // }, 1500);
-        }
-    } catch (error) {
-        console.log(error);
-        showAlert('error', 'Error in Updateing User Password! Try again');
-    }
 }
