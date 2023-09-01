@@ -42,5 +42,6 @@ viewRouter.post(
     authController.protect,
     viewController.updateUserData,
 );
+viewRouter.get('/my-tours', authController.protect, viewController.getMyTours);
 
 module.exports = { viewRouter };
