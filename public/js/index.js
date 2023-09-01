@@ -272,7 +272,7 @@ async function bookTour(tourID, e) {
 
         // Get CheckOut Scssion From API
         const session = await axios(
-            `http://127.0.0.1:8000/api/v1/booking/checkout-session/${tourID}`,
+            `http://127.0.0.1:8000/api/v1/bookings/checkout-session/${tourID}`,
         );
 
         await stripe.redirectToCheckout({
