@@ -80,7 +80,6 @@ if (mapBox) {
     const bounds = new mapboxgl.LngLatBounds();
 
     locations.forEach(function (loc) {
-        console.log(loc);
         // Create Marker
         const el = document.createElement('div');
         el.className = 'marker';
@@ -251,5 +250,48 @@ if (userUpdatePassFrom) {
         newPassConfirm.value = null;
         document.querySelector('.btn--save-password').textContent =
             'Save password';
+    });
+}
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+// STRIPE
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+async function bookTour(tourID) {
+    try {
+        const stripe = Stripe(
+            'pk_test_51NlMh1SJzVtls1wv0Nykwdrq589ZeXwyCjfKtByXHhGiljs7HPgPt9gfYvGRTsJpKmPPApIdRwd4unXDY5xLV3d800kaHj3WT5',
+        );
+
+        // Get CheckOut Scssion From API
+        const session = await axios(
+            `http://127.0.0.1:8000/api/v1/booking/checkout-session/${tourID}`,
+        );
+
+        await stripe.redirectToCheckout({
+            sessionId: session.data.session.id,
+        });
+    } catch (error) {
+        showAlert('error', error);
+    }
+
+    // Create Checkout form
+    console.log(session);
+}
+
+const bookBtn = document.getElementById('book-tour');
+if (bookBtn) {
+    bookBtn.addEventListener('click', function (e) {
+        e.target.textContent = 'Processing...';
+        const { tourId } = e.target.dataset;
+
+        bookTour(tourId);
     });
 }

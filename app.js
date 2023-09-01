@@ -31,7 +31,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(morgan('dev'));
 
 // Set Security HTTP Headers
-app.use(helmet());
+const cspConfig = helmet.contentSecurityPolicy({
+    directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+            "'self'",
+            'https://cdnjs.cloudflare.com',
+            'https://api.mapbox.com',
+            'https://js.stripe.com/v3/',
+            'https://cdn.jsdelivr.net/npm/axios@1.5.0/dist/axios.min.js', // Add domains for specific JS files here
+        ],
+        // Include other CSP directives as needed for other resource types
+    },
+});
+
+app.use(cspConfig);
 
 // Set Rate Limit
 const limiter = rateLimit({
