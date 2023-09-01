@@ -6,6 +6,10 @@ const bookingRouter = express.Router();
 
 bookingRouter
     .route('/checkout-session/:tourID')
-    .get(authController.protect, bookingController.getCheckoutSession);
+    .get(
+        authController.protect,
+        authController.restrictTo('user'),
+        bookingController.getCheckoutSession,
+    );
 
 module.exports = { bookingRouter };

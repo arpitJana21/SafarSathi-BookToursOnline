@@ -264,7 +264,7 @@ if (userUpdatePassFrom) {
 //////////////////////////////////////
 //////////////////////////////////////
 //////////////////////////////////////
-async function bookTour(tourID) {
+async function bookTour(tourID, e) {
     try {
         const stripe = Stripe(
             'pk_test_51NlMh1SJzVtls1wv0Nykwdrq589ZeXwyCjfKtByXHhGiljs7HPgPt9gfYvGRTsJpKmPPApIdRwd4unXDY5xLV3d800kaHj3WT5',
@@ -279,7 +279,8 @@ async function bookTour(tourID) {
             sessionId: session.data.session.id,
         });
     } catch (error) {
-        showAlert('error', error);
+        e.target.textContent = 'Book Tour Now!';
+        showAlert('error', error.response.data.message);
     }
 
     // Create Checkout form
@@ -291,7 +292,6 @@ if (bookBtn) {
     bookBtn.addEventListener('click', function (e) {
         e.target.textContent = 'Processing...';
         const { tourId } = e.target.dataset;
-
-        bookTour(tourId);
+        bookTour(tourId, e);
     });
 }

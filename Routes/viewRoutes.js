@@ -1,6 +1,7 @@
 const express = require('express');
 const viewController = require('../Controllers/viewsController');
 const authController = require('../Controllers/authController');
+const bookingController = require('../Controllers/bookingController');
 
 const viewRouter = express.Router();
 
@@ -19,7 +20,12 @@ const setCSPHeaders = (req, res, next) => {
 
 viewRouter.use(setCSPHeaders);
 
-viewRouter.get('/', authController.isLoggedIn, viewController.getOverview);
+viewRouter.get(
+    '/',
+    bookingController.createBookingCheckout,
+    authController.isLoggedIn,
+    viewController.getOverview,
+);
 viewRouter.get(
     '/tour/:slug',
     authController.isLoggedIn,
