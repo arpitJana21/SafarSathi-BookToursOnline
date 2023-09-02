@@ -6,8 +6,7 @@
     "scripts": {
         "start": "node server.js",
         "dev": "nodemon server.js",
-        "watchJS": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
-        "buildJS": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
+        "prod": "nodemon server.js"
     },
     "repository": "https://github.com/arpitJana21/SafarSathi-BookToursOnline.git",
     "keywords": [
