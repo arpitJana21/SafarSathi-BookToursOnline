@@ -20,7 +20,6 @@ if (mapBox) {
     const bounds = new mapboxgl.LngLatBounds();
 
     locations.forEach(function (loc) {
-        console.log(loc);
         // Create Marker
         const el = document.createElement('div');
         el.className = 'marker';

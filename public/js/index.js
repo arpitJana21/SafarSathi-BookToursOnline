@@ -282,9 +282,6 @@ async function bookTour(tourID, e) {
         e.target.textContent = 'Book Tour Now!';
         showAlert('error', error.response.data.message);
     }
-
-    // Create Checkout form
-    console.log(session);
 }
 
 const bookBtn = document.getElementById('book-tour');

@@ -61,7 +61,6 @@ const updateUserData = catchAsync(async function (req, res, next) {
 });
 
 const getMyTours = async function (req, res, next) {
-    console.log(req.user);
     // Find All Bookings
     const bookings = await Booking.find({ user: req.user._id });
 
