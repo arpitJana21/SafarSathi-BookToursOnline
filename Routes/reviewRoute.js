@@ -8,7 +8,10 @@ reviewRouter.use(authController.protect);
 
 reviewRouter
     .route('/')
-    .get(reviewController.getAllReviews)
+    .get(
+        authController.restrictTo('lead-guide', 'admin'),
+        reviewController.getAllReviews,
+    )
     .post(
         authController.protect,
         authController.restrictTo('user'),

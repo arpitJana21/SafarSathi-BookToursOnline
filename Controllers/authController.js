@@ -183,7 +183,7 @@ const forgotPassword = catchAsync(async function (req, res, next) {
             'host',
         )}/api/v1/users/resetPassword/${resetToken}`;
 
-        await new Email(user, resetURL).sendPasswordReset();
+        await new Email(user, resetURL, resetToken).sendPasswordReset();
 
         res.status(200).json({
             status: 'success',

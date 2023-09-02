@@ -3,10 +3,11 @@ const pug = require('pug');
 const { htmlToText } = require('html-to-text');
 
 class Email {
-    constructor(user, url) {
+    constructor(user, url, resetToken) {
         this.to = user.email;
         this.firstName = user.name.split(' ')[0];
         this.url = url;
+        this.resetToken = resetToken;
         this.from = `Arpit Jana <${process.env.EMAIL_FROM}>`;
     }
 
@@ -33,6 +34,7 @@ class Email {
                 firstName: this.firstName,
                 url: this.url,
                 subject: subject,
+                resetToken: this.resetToken,
             },
         );
 

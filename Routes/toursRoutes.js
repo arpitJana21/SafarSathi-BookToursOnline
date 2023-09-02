@@ -9,7 +9,13 @@ tourRouter
     .route('/top-5-cheap')
     .get(tourController.aliasTopTours, tourController.getAllTours);
 
-tourRouter.route('/stats').get(tourController.getTourStats);
+tourRouter
+    .route('/stats')
+    .get(
+        authController.protect,
+        authController.restrictTo('admin', 'lead-guide', 'guide'),
+        tourController.getTourStats,
+    );
 tourRouter
     .route('/monthly-plan/:year')
     .get(
