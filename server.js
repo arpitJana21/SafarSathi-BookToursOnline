@@ -31,8 +31,8 @@ mongoose
     .connect(DB_URL)
     .then(function () {
         console.log('DataBase Connection successful.');
-        console.log(`API URL: http://127.0.0.1:${PORT_NUM}/api/v1/`);
-        console.log(`Live URL: http://127.0.0.1:${PORT_NUM}/`);
+        console.log(`LIVE URL: #{protocol}://#{host}:${PORT_NUM}/`);
+        console.log(`API URL: #{protocol}://#{host}:${PORT_NUM}/api/v1/`);
     })
     .catch(function (error) {
         console.log('\n⚠ DATABASE CONNECTION ERROR ⚠\n');

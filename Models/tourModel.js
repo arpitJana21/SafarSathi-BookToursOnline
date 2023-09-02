@@ -181,10 +181,10 @@ tourSchema.pre(/^find/, function (next) {
     next();
 });
 
-tourSchema.post(/^find/, function (docs, next) {
-    console.dir(`Query Took ${Date.now() - this.start} millisecods !`);
-    next();
-});
+// tourSchema.post(/^find/, function (docs, next) {
+//     console.dir(`Query Took ${Date.now() - this.start} millisecods !`);
+//     next();
+// });
 
 tourSchema.pre(/^find/, function (next) {
     this.populate({

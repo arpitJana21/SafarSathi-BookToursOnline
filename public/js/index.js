@@ -29,8 +29,8 @@ async function updateSettings(data, type) {
     try {
         const url =
             type === 'password'
-                ? 'http://127.0.0.1:8000/api/v1/users/updateMyPassword'
-                : 'http://127.0.0.1:8000/api/v1/users/updateMe';
+                ? '/api/v1/users/updateMyPassword'
+                : '/api/v1/users/updateMe';
 
         const res = await axios({
             method: 'PATCH',
@@ -143,7 +143,7 @@ async function login(email, password) {
     try {
         const res = await axios({
             method: 'POST',
-            url: `http://127.0.0.1:8000/api/v1/users/login`,
+            url: `/api/v1/users/login`,
             data: {
                 email: email,
                 password: password,
@@ -165,7 +165,7 @@ async function logout() {
     try {
         const res = await axios({
             method: 'GET',
-            url: `http://127.0.0.1:8000/api/v1/users/logout`,
+            url: `/api/v1/users/logout`,
         });
         if (res.data.status === 'success') {
             showAlert('success', 'LoggedOut Successfully');
@@ -272,7 +272,7 @@ async function bookTour(tourID, e) {
 
         // Get CheckOut Scssion From API
         const session = await axios(
-            `http://127.0.0.1:8000/api/v1/bookings/checkout-session/${tourID}`,
+            `/api/v1/bookings/checkout-session/${tourID}`,
         );
 
         await stripe.redirectToCheckout({
