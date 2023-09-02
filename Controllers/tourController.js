@@ -101,13 +101,13 @@ const getMonthlyPlan = catchAsync(async function (req, res, next) {
         {
             $unwind: '$startDates',
         },
-        {
-            $set: {
-                startDates: {
-                    $dateFromString: { dateString: '$startDates' },
-                },
-            },
-        },
+        // {
+        //     $set: {
+        //         startDates: {
+        //             $dateFromString: { dateString: '$startDates' },
+        //         },
+        //     },
+        // },
         {
             $match: {
                 startDates: {
