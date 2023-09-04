@@ -12,7 +12,7 @@ const compression = require('compression');
 const { tourRouter } = require('./Routes/toursRoutes');
 const { userRouter } = require('./Routes/userRoutes');
 const { reviewRouter } = require('./Routes/reviewRoute');
-const { viewRouter } = require('./Routes/viewRoutes');
+// const { viewRouter } = require('./Routes/viewRoutes');
 const { bookingRouter } = require('./Routes/bookingRoute');
 
 const { AppError } = require('./utils/appError');
@@ -94,7 +94,12 @@ app.use(function (req, res, next) {
 });
 
 // Routes Middlewares
-app.use('/', viewRouter);
+// app.use('/', viewRouter);
+
+app.get('/', function (req, res) {
+    res.redirect('https://documenter.getpostman.com/view/25970142/2s9Y5YRN2L');
+});
+
 app.use('/api/v1/tours/', tourRouter);
 app.use('/api/v1/users/', userRouter);
 app.use('/api/v1/reviews/', reviewRouter);

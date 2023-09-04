@@ -30,10 +30,10 @@ const server = app.listen(PORT_NUM, function () {
 mongoose
     .connect(DB_URL)
     .then(function () {
-        const localWebUrl = `WEB URL: {{PROTOCOL}}://{{HOST}}:{{PORT}}/`;
+        // const localWebUrl = `WEB URL: {{PROTOCOL}}://{{HOST}}:{{PORT}}/`;
         const loaclAPIUrl = `API URL: {{PROTOCOL}}://{{HOST}}:{{PORT}}/api/v1/`;
         console.log('DataBase Connection successful.');
-        console.log(localWebUrl);
+        // console.log(localWebUrl);
         console.log(loaclAPIUrl);
     })
     .catch(function (error) {
