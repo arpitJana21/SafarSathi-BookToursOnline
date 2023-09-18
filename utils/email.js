@@ -12,10 +12,6 @@ class Email {
     }
 
     newTransport() {
-        if (process.env.NODE_ENV === 'production') {
-            // SendGRID
-            return 1;
-        }
         return nodemailer.createTransport({
             host: process.env.EMAIL_HOST,
             port: process.env.EMAIL_PORT,
@@ -26,8 +22,9 @@ class Email {
         });
     }
 
-    // Send Actula Email
+    // Send Actual Email
     async send(template, subject) {
+        // Render HTML based on a pug template
         const html = pug.renderFile(
             `${__dirname}/../views/email/${template}.pug`,
             {

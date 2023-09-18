@@ -21,8 +21,8 @@ const { globalErrorHandler } = require('./Controllers/errorController');
 const app = express();
 
 // Setting The Pug Template
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'pug');
+// app.set('views', path.join(__dirname, 'views'));
 
 // Global Middleware
 

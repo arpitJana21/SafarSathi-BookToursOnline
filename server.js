@@ -12,6 +12,7 @@ dotenv.config({ path: './config.env' });
 const { app } = require('./app');
 
 const DB_URL = process.env.DATABASE;
+// const DB_URL = process.env.DATABASE_LOCAL;
 const PORT_NUM = process.env.PORT;
 
 // Identifing if The server is running on "Production" or on "Development"

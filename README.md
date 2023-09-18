@@ -137,7 +137,7 @@ An Interactive API Documentation Covering All Routes with Detailed Request and R
 7. ✅ Now you are ready to Exprerience the API.
 
 <a href="https://documenter.getpostman.com/view/25970142/2s9Y5YRN2L" target="_blank" rel="">
-<img src="/public/img/readme/docs.png">
+<img src="/public/img/readme/doc.png">
 </a>
 
 ## Entity Relationship Diagram
