@@ -1,13 +1,12 @@
-# SafarSathi-BookToursOnline
-
 # SafarSathi: Book Tour Online
 
 <p align="center">
   <a href="" rel="">
- <img width=300px height=300px style="border: 3px solid #093950; border-radius:2rem" src="https://i.postimg.cc/8k9hmhbX/2023-09-03-10-41-06-modified.png"></a>
+ <img height=150px style="border-radius:0.3rem" src="https://i.postimg.cc/13ZMc49z/p1.png"></a>
 </p>
 <div align="center">
-<h4>Introducing SafarSathi, your one-stop solution for seamless and unforgettable travel experiences. Built with cutting-edge technology using Node.js, Express, and MongoDB, SafarSathi offers a robust and user-friendly REST API for all your tour booking needs.</h4>
+<h4>
+SafarSathi is your hassle-free online tour booking REST-API. It offers user-friendly features like secure registration, profile management, and effortless tour exploration. With a location-based search and secure payment processing, it's the go-to platform for travelers. Admins enjoy a powerful dashboard for seamless management.</h4>
 
 [![Repo Type](https://img.shields.io/badge/repo_type-Public-fcc419?style=flat&link=https://github.com/arpitjana21/SafarSathi-BookToursOnline)](https://github.com/arpitjana21/SafarSathi-BookToursOnline)
 [![Inline docs](https://inch-ci.org/github/dwyl/hapi-auth-jwt2.svg?branch=master)](https://documenter.getpostman.com/view/25970142/2s9Y5YRN2L)
@@ -123,17 +122,35 @@ e.g.
 
 An Interactive API Documentation Covering All Routes with Detailed Request and Response Examples.
 
-[![API Documentation](https://img.shields.io/badge/API%20Documentation-View%20Here-orange.svg)](https://documenter.getpostman.com/view/25970142/2s9Y5YRN2L)
+<a href="https://documenter.getpostman.com/view/25970142/2s9Y5YRN2L">![version](https://img.shields.io/badge/API_Documentation-View_Here-0E89C6)</a>
+
+#### How to test API in Postman ?
+
+1. Click "Run in Postman" inside the docs.
+2. Import Collection inside your workspace.
+3. Inside Environments tab create new Environment, name it as "SafarSathi".
+4. Inside the Environment create new Variables-\
+   &nbsp; "URL" ~ "https://safarsathi-booktoursonline-production.up.railway.app" \
+   &nbsp; "jwt" ~ "No-Initaial-Value-Required"
+5. Now your Environment is ready to use.
+6. Before trying any Route select the Environment "SafarSathi".
+7. ✅ Now you are ready to Exprerience the API.
 
 <a href="https://documenter.getpostman.com/view/25970142/2s9Y5YRN2L" target="_blank" rel="">
-<img src="https://i.postimg.cc/nh3mQ1Nw/2023-09-03-23-26-09.png">
+<img src="/public/img/readme/docs.png">
 </a>
 
 ## Entity Relationship Diagram
 
-<img src="https://i.postimg.cc/WzrRfbGx/2023-09-03-13-07-57.png">
+<img src="/public/img/readme/ERD.jpg">
 
 ## Contact Me
 
 [![GitHub ](https://img.shields.io/badge/GitHub-@arpitjana21-orange?style=flat&logo=GitHub&link=https://github.com/arpitjana21)](https://github.com/arpitjana21)
 [![LinkedIn ](https://img.shields.io/badge/LinkedIn-@arpitjana2103-0077b5?style=flat&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/arpitjana2103/)](https://www.linkedin.com/in/arpitjana2103/)
+
+## LISENSE
+
+[![License](https://img.shields.io/badge/license-MIT-85e2cd.svg)](https://opensource.org/license/mit/)
+
+Copyright (c) 2023 Arpit Jana
