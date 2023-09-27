@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="" rel="">
- <img height=150px style="border-radius:0.3rem" src="https://i.postimg.cc/13ZMc49z/p1.png"></a>
+ <img width=300px style="border-radius:0.3rem" src="./public/img/readme/cover.png"></a>
 </p>
 <div align="center">
 <h4>
