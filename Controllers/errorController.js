@@ -49,6 +49,7 @@ const sendErrorDev = function (req, err, res) {
 
 const sendErrorProd = function (req, err, res) {
     // A) API
+
     if (req.originalUrl.startsWith('/api')) {
         // A) Operational, trusted error: send message to client
         if (err.isOperational) {
@@ -68,6 +69,7 @@ const sendErrorProd = function (req, err, res) {
     }
 
     // B) RENDERED WEBSITE
+
     // A) Operational, trusted error: send message to client
     if (err.isOperational) {
         console.log(err);
