@@ -130,7 +130,7 @@ An Interactive API Documentation Covering All Routes with Detailed Request and R
 2. Import Collection inside your workspace.
 3. Inside Environments tab create new Environment, name it as "SafarSathi".
 4. Inside the Environment create new Variables-\
-   &nbsp; "URL" ~ "https://safarsathi-booktoursonline-production.up.railway.app" \
+   &nbsp; "URL" ~ "https://safarsathi-booktoursonline-production.up.railway.app" or "https://safar-sathi-booktoursonline.onrender.com" \
    &nbsp; "jwt" ~ "No-Initaial-Value-Required"
 5. Now your Environment is ready to use.
 6. Before trying any Route select the Environment "SafarSathi".
