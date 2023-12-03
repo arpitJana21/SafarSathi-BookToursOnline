@@ -108,7 +108,7 @@ const protect = catchAsync(async function (req, res, next) {
         next(error);
     }
 
-    // Access to Protected Route
+    // Give User Obj Access to Protected Route
     req.user = currentUser;
     next();
 });

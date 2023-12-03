@@ -12,7 +12,7 @@ dotenv.config({ path: './config.env' });
 const { app } = require('./app');
 
 const DB_URL = process.env.DATABASE;
-// const DB_URL = process.env.DATABASE_LOCAL;
+// const DB_URL_LOCAL = process.env.DATABASE_LOCAL;
 const PORT_NUM = process.env.PORT;
 
 // Identifing if The server is running on "Production" or on "Development"
@@ -32,9 +32,9 @@ mongoose
     .connect(DB_URL)
     .then(function () {
         // const localWebUrl = `WEB URL: {{PROTOCOL}}://{{HOST}}:{{PORT}}/`;
-        const loaclAPIUrl = `API URL: {{PROTOCOL}}://{{HOST}}:{{PORT}}/api/v1/`;
-        console.log('DataBase Connection successful.');
         // console.log(localWebUrl);
+        console.log('DataBase Connection successful.');
+        const loaclAPIUrl = `API URL: {{PROTOCOL}}://{{HOST}}:{{PORT}}/api/v1/`;
         console.log(loaclAPIUrl);
     })
     .catch(function (error) {

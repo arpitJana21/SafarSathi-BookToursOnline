@@ -12,7 +12,6 @@ const compression = require('compression');
 const { tourRouter } = require('./Routes/toursRoutes');
 const { userRouter } = require('./Routes/userRoutes');
 const { reviewRouter } = require('./Routes/reviewRoute');
-// const { viewRouter } = require('./Routes/viewRoutes');
 const { bookingRouter } = require('./Routes/bookingRoute');
 
 const { AppError } = require('./utils/appError');
